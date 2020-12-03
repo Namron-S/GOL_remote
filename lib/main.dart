@@ -135,7 +135,8 @@ class _MyHomePageState extends State<MyHomePage>
         ),
       ),
       floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Container(
             width: 30,
@@ -156,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage>
             ),
           ),
           Container(
+            margin: EdgeInsets.only(left: 30, right: 30),
             width: 30,
             height: 30,
             child: FittedBox(
