@@ -137,44 +137,62 @@ class _MyHomePageState extends State<MyHomePage>
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          FloatingActionButton(
-            backgroundColor: simulationOn ? Colors.grey : Colors.blue,
-            onPressed: simulationOn
-                ? null
-                : () => {
-                      setState(() {
-                        worldModel.nextGeneration();
-                      })
-                    },
-            tooltip: 'Next Generation',
-            child: Icon(Icons.forward),
+          Container(
+            width: 30,
+            height: 30,
+            child: FittedBox(
+              child: FloatingActionButton(
+                backgroundColor: simulationOn ? Colors.grey : Colors.blue,
+                onPressed: simulationOn
+                    ? null
+                    : () => {
+                          setState(() {
+                            worldModel.nextGeneration();
+                          })
+                        },
+                tooltip: 'Next Generation',
+                child: Icon(Icons.forward),
+              ),
+            ),
           ),
-          FloatingActionButton(
-            backgroundColor: simulationOn ? Colors.grey : Colors.blue,
-            onPressed: simulationOn
-                ? null
-                : () => {
-                      setState(() {
-                        worldModel.setAllCellsToFalse();
-                      })
-                    },
-            tooltip: 'Kill all cells!',
-            child: Icon(Icons.clear),
+          Container(
+            width: 30,
+            height: 30,
+            child: FittedBox(
+              child: FloatingActionButton(
+                backgroundColor: simulationOn ? Colors.grey : Colors.blue,
+                onPressed: simulationOn
+                    ? null
+                    : () => {
+                          setState(() {
+                            worldModel.setAllCellsToFalse();
+                          })
+                        },
+                tooltip: 'Kill all cells!',
+                child: Icon(Icons.clear),
+              ),
+            ),
           ),
-          FloatingActionButton(
-            tooltip: simulationOn ? 'Stop Simulation' : 'Run Simulation',
-            onPressed: () {
-              setState(() {
-                if (!simulationOn) {
-                  timer = Timer.periodic(
-                      Duration(milliseconds: 500), handleTimeout);
-                } else {
-                  timer.cancel();
-                }
-                simulationOn = !simulationOn;
-              });
-            },
-            child: simulationOn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+          Container(
+            width: 30,
+            height: 30,
+            child: FittedBox(
+              child: FloatingActionButton(
+                tooltip: simulationOn ? 'Stop Simulation' : 'Run Simulation',
+                onPressed: () {
+                  setState(() {
+                    if (!simulationOn) {
+                      timer = Timer.periodic(
+                          Duration(milliseconds: 500), handleTimeout);
+                    } else {
+                      timer.cancel();
+                    }
+                    simulationOn = !simulationOn;
+                  });
+                },
+                child: simulationOn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+              ),
+            ),
           ),
         ],
       ),
