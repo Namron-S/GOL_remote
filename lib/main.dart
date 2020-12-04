@@ -127,7 +127,6 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     super.build(context);
     this.cellSize = calcCellSize(context);
-    print(this.cellSize);
     return Scaffold(
       body: Center(
         child: Table(
