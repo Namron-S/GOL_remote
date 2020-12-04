@@ -112,6 +112,7 @@ class _MyHomePageState extends State<MyHomePage>
   WorldModel worldModel = new WorldModel();
   bool simulationOn = false;
   Timer timer;
+  Size cellSize = Size(25, 25);
 
   void handleTimeout(Timer timer) {
     setState(() {
@@ -125,6 +126,8 @@ class _MyHomePageState extends State<MyHomePage>
 
   Widget build(BuildContext context) {
     super.build(context);
+    this.cellSize = calcCellSize(context);
+    print(this.cellSize);
     return Scaffold(
       body: Center(
         child: Table(
@@ -217,6 +220,12 @@ class _MyHomePageState extends State<MyHomePage>
     return TableRow(children: row);
   }
 
+  Size calcCellSize(BuildContext ctx) {
+    final double shortestSide = MediaQuery.of(ctx).size.shortestSide;
+    final double cellLength = shortestSide / worldModel.noOfColumns;
+    return Size(cellLength, cellLength);
+  }
+
   Widget generateCell(int i, j) {
     return GestureDetector(
       onTap: () {
@@ -225,8 +234,8 @@ class _MyHomePageState extends State<MyHomePage>
         });
       },
       child: AnimatedContainer(
-        width: 25.0,
-        height: 25.0,
+        width: cellSize.width,
+        height: cellSize.height,
         margin: EdgeInsets.all(1.0),
         duration: Duration(milliseconds: 250),
         color: getCellColor(i, j),
