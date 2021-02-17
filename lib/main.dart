@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   List<TableRow> getTableRows() {
-    List<TableRow> rows = <TableRow>[]..length = worldModel.noOfRows;
+    final List<TableRow> rows = <TableRow>[]..length = worldModel.noOfRows;
     for (int i = 0; i < worldModel.noOfRows; i++) {
       rows[i] = getTableRow(i);
     }
@@ -212,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   TableRow getTableRow(int i) {
-    List<Widget> row = <Widget>[]..length = worldModel.noOfColumns;
+    final List<Widget> row = <Widget>[]..length = worldModel.noOfColumns;
     for (int j = 0; j < worldModel.noOfColumns; j++) {
       row[j] = generateCell(i, j);
     }
@@ -225,7 +225,7 @@ class _MyHomePageState extends State<MyHomePage>
     return Size(cellLength, cellLength);
   }
 
-  Widget generateCell(int i, j) {
+  Widget generateCell(int i, int j) {
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -307,13 +307,13 @@ class WorldModel {
       }
     }
     //Swapping Matrices
-    List dummy = _cellMatrix;
+    final dummy = _cellMatrix;
     _cellMatrix = _cellMatrixNextGen;
     _cellMatrixNextGen = dummy;
   }
 
   bool willBeDead(int i, int j) {
-    int noOfAliveNeighbours = getNoOfAliveNeighbours(i, j);
+    final int noOfAliveNeighbours = getNoOfAliveNeighbours(i, j);
     if (noOfAliveNeighbours < 2 || noOfAliveNeighbours > 3)
       return true;
     else
