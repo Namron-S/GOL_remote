@@ -204,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   List<TableRow> getTableRows() {
-    List<TableRow> rows = List(worldModel.noOfRows);
+    List<TableRow> rows = <TableRow>[]..length = worldModel.noOfRows;
     for (int i = 0; i < worldModel.noOfRows; i++) {
       rows[i] = getTableRow(i);
     }
@@ -212,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   TableRow getTableRow(int i) {
-    List<Widget> row = List(worldModel.noOfColumns);
+    List<Widget> row = <Widget>[]..length = worldModel.noOfColumns;
     for (int j = 0; j < worldModel.noOfColumns; j++) {
       row[j] = generateCell(i, j);
     }
