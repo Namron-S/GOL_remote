@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:game_of_life/model_world.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MyApp(
+    key: UniqueKey(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({required Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,17 +22,19 @@ class MyApp extends StatelessWidget {
           length: 2,
           child: Scaffold(
             appBar: AppBar(
-              bottom: TabBar(
+              bottom: const TabBar(
                 tabs: [
                   Tab(icon: Icon(Icons.cloud_circle)),
                   Tab(icon: Icon(Icons.info)),
                 ],
               ),
-              title: Text('Game Of Life'),
+              title: const Text('Game Of Life'),
             ),
             body: TabBarView(
               children: [
-                MyHomePage(),
+                MyHomePage(
+                  key: UniqueKey(),
+                ),
                 createInfoText(context),
               ],
             ),
@@ -45,50 +49,45 @@ Widget createInfoText(var context) {
     padding: const EdgeInsets.all(8.0),
     child: RichText(
       text: TextSpan(
-        style: TextStyle(color: Colors.black, fontSize: 16.0),
+        style: const TextStyle(color: Colors.black, fontSize: 16.0),
         children: <TextSpan>[
-          TextSpan(
+          const TextSpan(
             text: 'About\n\n',
             style:
                 TextStyle(fontSize: 20.0, decoration: TextDecoration.underline),
           ),
-          TextSpan(
+          const TextSpan(
             text:
-                "This app simulates Conway's Game of Life. For the sake of simplicity  we have a finite grid of cells\n" +
-                    "and the border-cells are always dead.\n\n",
+                "This app simulates Conway's Game of Life. For the sake of simplicity  we have a finite grid of cells\n and the border-cells are always dead.\n\n",
           ),
-          TextSpan(
+          const TextSpan(
             text: 'Rules\n\n',
             style:
                 TextStyle(fontSize: 20.0, decoration: TextDecoration.underline),
           ),
-          TextSpan(
-            text: 'The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells,\n' +
-                'each of which is in one of two possible states, alive or dead, (or populated and unpopulated, respectively).\n' +
-                'Every cell interacts with its eight neighbours, which are the cells that are horizontally, vertically,\n' +
-                'or diagonally adjacent. At each step in time, the following transitions occur:\n',
+          const TextSpan(
+            text:
+                'The universe of the Game of Life is an infinite, two-dimensional orthogonal grid of square cells,\neach of which is in one of two possible states, alive or dead, (or populated and unpopulated, respectively).\nEvery cell interacts with its eight neighbours, which are the cells that are horizontally, vertically,\nor diagonally adjacent. At each step in time, the following transitions occur:\n',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '   1. Any live cell with fewer than two live neighbours dies, as if by underpopulation.\n',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '   2. Any live cell with two or three live neighbours lives on to the next generation.\n',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '   3. Any live cell with more than three live neighbours dies, as if by overpopulation.\n',
           ),
-          TextSpan(
+          const TextSpan(
             text:
                 '   4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.\n',
           ),
-          TextSpan(
-            text: 'The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules\n' +
-                'simultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens\n' +
-                'is sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be applied\n' +
-                'repeatedly to create further generations.\n',
+          const TextSpan(
+            text:
+                'The initial pattern constitutes the seed of the system. The first generation is created by applying the above rules\nsimultaneously to every cell in the seed; births and deaths occur simultaneously, and the discrete moment at which this happens\nis sometimes called a tick. Each generation is a pure function of the preceding one. The rules continue to be applied\nrepeatedly to create further generations.\n',
           ),
           TextSpan(
               text: '(Source: Wikipedia)',
@@ -101,19 +100,19 @@ Widget createInfoText(var context) {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({
-    Key key,
+  const MyHomePage({
+    required Key key,
   }) : super(key: key);
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage>
     with AutomaticKeepAliveClientMixin {
-  final WorldModel worldModel = new WorldModel();
+  final WorldModel worldModel = WorldModel();
   bool simulationOn = false;
-  Timer timer;
-  Size cellSize = Size(25, 25);
+  late Timer timer;
+  Size cellSize = const Size(25, 25);
 
   void handleTimeout(Timer timer) {
     setState(() {
@@ -125,15 +124,16 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     super.build(context);
-    this.cellSize = calcCellSize(context);
+    cellSize = calcCellSize(context);
     return Scaffold(
       body: Center(
         child: Table(
           border: TableBorder.symmetric(
-              outside: BorderSide(width: 2, color: Colors.blue)),
-          defaultColumnWidth: IntrinsicColumnWidth(),
+              outside: const BorderSide(width: 2, color: Colors.blue)),
+          defaultColumnWidth: const IntrinsicColumnWidth(),
           children: getTableRows(),
         ),
       ),
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage>
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Container(
+          SizedBox(
             width: 30,
             height: 30,
             child: FittedBox(
@@ -155,12 +155,12 @@ class _MyHomePageState extends State<MyHomePage>
                           })
                         },
                 tooltip: 'Next Generation',
-                child: Icon(Icons.forward),
+                child: const Icon(Icons.forward),
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 30, right: 30),
+            margin: const EdgeInsets.only(left: 30, right: 30),
             width: 30,
             height: 30,
             child: FittedBox(
@@ -174,11 +174,11 @@ class _MyHomePageState extends State<MyHomePage>
                           })
                         },
                 tooltip: 'Kill all cells!',
-                child: Icon(Icons.clear),
+                child: const Icon(Icons.clear),
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: 30,
             height: 30,
             child: FittedBox(
@@ -188,14 +188,16 @@ class _MyHomePageState extends State<MyHomePage>
                   setState(() {
                     if (!simulationOn) {
                       timer = Timer.periodic(
-                          Duration(milliseconds: 500), handleTimeout);
+                          const Duration(milliseconds: 500), handleTimeout);
                     } else {
                       timer.cancel();
                     }
                     simulationOn = !simulationOn;
                   });
                 },
-                child: simulationOn ? Icon(Icons.stop) : Icon(Icons.play_arrow),
+                child: simulationOn
+                    ? const Icon(Icons.stop)
+                    : const Icon(Icons.play_arrow),
               ),
             ),
           ),
@@ -205,24 +207,21 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   List<TableRow> getTableRows() {
-    final List<TableRow> rows = <TableRow>[]..length = worldModel.noOfRows;
-    for (int i = 0; i < worldModel.noOfRows; i++) {
-      rows[i] = getTableRow(i);
-    }
+    final rows = List<TableRow>.generate(
+        WorldModel.noOfRows, (index) => getTableRow(index));
     return rows;
   }
 
   TableRow getTableRow(int i) {
-    final List<Widget> row = <Widget>[]..length = worldModel.noOfColumns;
-    for (int j = 0; j < worldModel.noOfColumns; j++) {
-      row[j] = generateCell(i, j);
-    }
+    final row = List<Widget>.generate(
+        WorldModel.noOfColumns, (index) => generateCell(i, index));
+
     return TableRow(children: row);
   }
 
   Size calcCellSize(BuildContext ctx) {
     final double shortestSide = MediaQuery.of(ctx).size.shortestSide;
-    final double cellLength = shortestSide / worldModel.noOfColumns;
+    final double cellLength = shortestSide / WorldModel.noOfColumns;
     return Size(cellLength, cellLength);
   }
 
@@ -236,19 +235,19 @@ class _MyHomePageState extends State<MyHomePage>
       child: AnimatedContainer(
         width: cellSize.width,
         height: cellSize.height,
-        margin: EdgeInsets.all(1.0),
-        duration: Duration(milliseconds: 250),
+        margin: const EdgeInsets.all(1.0),
+        duration: const Duration(milliseconds: 250),
         color: getCellColor(i, j),
-        child: Text(''),
+        child: const Text(''),
       ),
     );
   }
 
   Color getCellColor(int i, int j) {
     if (i == 0 ||
-        i == worldModel.noOfRows - 1 ||
+        i == WorldModel.noOfRows - 1 ||
         j == 0 ||
-        j == worldModel.noOfColumns - 1)
+        j == WorldModel.noOfColumns - 1)
       return Colors.blueGrey;
     else
       return worldModel.getCellValue(i, j) ? Colors.greenAccent : Colors.grey;
