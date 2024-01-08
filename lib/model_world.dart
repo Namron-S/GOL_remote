@@ -1,30 +1,30 @@
 class WorldModel {
-  final int noOfRows = 16;
-  final int noOfColumns = 25;
+  static const int noOfRows = 16;
+  static const int noOfColumns = 25;
 
-  List<List<bool>> _cellMatrixNextGen;
-  List<List<bool>> _cellMatrix;
+  List<List<bool>> _cellMatrixNextGen =
+      List.generate(noOfRows, (i) => List.generate(noOfColumns, (i) => false));
+  List<List<bool>> _cellMatrix =
+      List.generate(noOfRows, (i) => List.generate(noOfColumns, (i) => false));
 
-  WorldModel() {
-    _cellMatrixNextGen = List.generate(
-        noOfRows, (i) => List.generate(noOfColumns, (i) => false));
-    _cellMatrix = List.generate(
-        noOfRows, (i) => List.generate(noOfColumns, (i) => false));
-  }
+  //WorldModel() {}
 
   bool allCellsDead() {
-    for (int i = 1; i < noOfRows - 1; i++)
-      for (int j = 1; j < noOfColumns - 1; j++)
+    for (int i = 1; i < noOfRows - 1; i++) {
+      for (int j = 1; j < noOfColumns - 1; j++) {
         if (_cellMatrix[i][j]) return false;
+      }
+    }
     return true;
   }
 
   void toggleCell(int i, int j) {
     //the border cells remain dead
-    if (i == 0 || i == noOfRows - 1 || j == 0 || j == noOfColumns - 1)
+    if (i == 0 || i == noOfRows - 1 || j == 0 || j == noOfColumns - 1) {
       return;
-    else
+    } else {
       _cellMatrix[i][j] = !_cellMatrix[i][j];
+    }
   }
 
   bool getCellValue(int i, int j) {
@@ -35,15 +35,17 @@ class WorldModel {
     for (int i = 1; i < noOfRows - 1; i++) {
       for (int j = 1; j < noOfColumns - 1; j++) {
         if (_cellMatrix[i][j]) {
-          if (willBeDead(i, j))
+          if (willBeDead(i, j)) {
             _cellMatrixNextGen[i][j] = false;
-          else
+          } else {
             _cellMatrixNextGen[i][j] = true;
+          }
         } else {
-          if (isAwakenToLife(i, j))
+          if (isAwakenToLife(i, j)) {
             _cellMatrixNextGen[i][j] = true;
-          else
+          } else {
             _cellMatrixNextGen[i][j] = false;
+          }
         }
       }
     }
@@ -55,17 +57,19 @@ class WorldModel {
 
   bool willBeDead(int i, int j) {
     final int noOfAliveNeighbours = getNoOfAliveNeighbours(i, j);
-    if (noOfAliveNeighbours < 2 || noOfAliveNeighbours > 3)
+    if (noOfAliveNeighbours < 2 || noOfAliveNeighbours > 3) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   bool isAwakenToLife(int i, int j) {
-    if (getNoOfAliveNeighbours(i, j) == 3)
+    if (getNoOfAliveNeighbours(i, j) == 3) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   int getNoOfAliveNeighbours(int i, int j) {
